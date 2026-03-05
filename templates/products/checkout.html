@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block title %}الدفع{% endblock %}
+
+{% block content %}
+<style>
+    .checkout-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 60px 0;
+        border-radius: 0 0 50px 50px;
+        margin-bottom: 50px;
+    }
+
+    .checkout-card {
+        border: none;
+        border-radius: 20px;
+        background: #ffffff;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        padding: 40px;
+    }
+
+    .table thead {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+    }
+
+    .table thead th {
+        border: none;
+        padding: 14px;
+    }
+
+    .table tbody tr {
+        transition: background 0.2s;
+    }
+
+    .table tbody tr:hover {
+        background: #f0f0ff;
+    }
+
+    .totals-box {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 20px 25px;
+        margin-top: 20px;
+    }
+
+    .totals-box h4 {
+        color: #667eea;
+    }
+
+    .btn-pay {
+        background: linear-gradient(135deg, #25d64b, #2a874b);
+        border: none;
+        border-radius: 12px;
+        font-weight: 600;
+        padding: 12px;
+        font-size: 1.1rem;
+        color: white;
+        transition: opacity 0.3s;
+    }
+
+    .btn-pay:hover {
+        opacity: 0.85;
+        color: white;
+    }
+</style>
+
+<div class="checkout-header text-center">
+    <h1 class="display-4 fw-bold">الدفع</h1>
+    <p class="lead opacity-75">راجع طلبك وأتمّ عملية الدفع</p>
+</div>
+
+<div class="container">
+    <div class="checkout-card">
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>اسم المنتج</th>
+                    <th>السعر</th>
+                    <th>الكمية</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, item in cart.items %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.price }} ر.س</td>
+                    <td>{{ item.quantity }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="totals-box text-end">
+            <h5>المجموع: {{ total }} ر.س</h5>
+            <h5>الضريبة (15%): {{ tax }} ر.س</h5>
+            <h4 class="fw-bold">الإجمالي مع الضريبة: {{ total_with_tax }} ر.س</h4>
+        </div>
+
+        <form method="post" class="mt-4">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-pay w-100">دفع</button>
+        </form>
+
+    </div>
+</div>
+{% endblock %}

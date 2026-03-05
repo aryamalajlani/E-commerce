@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}الملف الشخصي{% endblock %}
+
+{% block content %}
+<style>
+    .profile-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 60px 0;
+        border-radius: 0 0 50px 50px;
+        margin-bottom: 50px;
+    }
+
+    .profile-card {
+        border: none;
+        border-radius: 20px;
+        background: #ffffff;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        padding: 40px;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .avatar-circle {
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        color: white;
+        font-weight: bold;
+        margin: 0 auto 25px;
+    }
+
+    .info-row {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 16px 20px;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .info-row i {
+        color: #667eea;
+        font-size: 1.2rem;
+        width: 24px;
+    }
+
+    .info-label {
+        font-size: 0.8rem;
+        color: #999;
+        margin: 0;
+    }
+
+    .info-value {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #333;
+        margin: 0;
+    }
+</style>
+
+<div class="profile-header text-center">
+    <h1 class="display-4 fw-bold">الملف الشخصي</h1>
+    <p class="lead opacity-75">مرحباً بك، {{ request.user.username }}</p>
+</div>
+
+<div class="container">
+    <div class="profile-card">
+
+        <div class="avatar-circle">
+            {{ request.user.username|slice:":1"|upper }}
+        </div>
+
+        <div class="info-row">
+            <i class="bi bi-person-fill"></i>
+            <div>
+                <p class="info-label">اسم المستخدم</p>
+                <p class="info-value">{{ request.user.username }}</p>
+            </div>
+        </div>
+
+        <div class="info-row">
+            <i class="bi bi-envelope-fill"></i>
+            <div>
+                <p class="info-label">البريد الإلكتروني</p>
+                <p class="info-value">{{ request.user.email|default:"غير محدد" }}</p>
+            </div>
+        </div>
+       
+
+        <a href="{% url 'logout' %}" class="btn w-100 mt-3" style="background: linear-gradient(135deg, #667eea, #764ba2); color:white; border-radius:12px; font-weight:600; padding:12px;">
+            تسجيل الخروج
+        </a>
+
+    </div>
+</div>
+{% endblock %}

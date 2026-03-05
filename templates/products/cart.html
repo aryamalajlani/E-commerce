@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %}سلة المشتريات{% endblock %}
+
+{% block content %}
+<style>
+    .cart-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 60px 0;
+        border-radius: 0 0 50px 50px;
+        margin-bottom: 50px;
+    }
+
+    .cart-card {
+        border: none;
+        border-radius: 20px;
+        background: #ffffff;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        padding: 40px;
+    }
+
+    .table thead {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+    }
+
+    .table thead th {
+        border: none;
+        padding: 14px;
+    }
+
+    .table tbody tr {
+        transition: background 0.2s;
+    }
+
+    .table tbody tr:hover {
+        background: #f0f0ff;
+    }
+
+    .btn-continue {
+        background: #f8f9fa;
+        border: 2px solid #667eea;
+        border-radius: 12px;
+        font-weight: 600;
+        padding: 12px 30px;
+        color: #667eea;
+        transition: all 0.3s;
+    }
+
+    .btn-continue:hover {
+        background: #f0f0ff;
+        color: #667eea;
+    }
+
+    .btn-pay {
+        background: linear-gradient(135deg, #7cb484, #188042);
+        border: none;
+        border-radius: 12px;
+        font-weight: 600;
+        padding: 12px 30px;
+        color: white;
+        transition: opacity 0.3s;
+    }
+
+    .btn-pay:hover {
+        opacity: 0.85;
+        color: white;
+    }
+</style>
+
+<div class="cart-header text-center">
+    <h1 class="display-4 fw-bold">سلة المشتريات</h1>
+    <p class="lead opacity-75">راجع منتجاتك قبل الدفع</p>
+</div>
+
+<div class="container">
+    <div class="cart-card">
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>اسم المنتج</th>
+                    <th>السعر</th>
+                    <th>الكمية</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product_id, item in cart.items %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.price }} ر.س</td>
+                    <td>{{ item.quantity }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="d-flex justify-content-between mt-4 gap-3">
+            <a href="{% url 'list' %}" class="btn btn-continue w-50">
+                <i class="bi bi-arrow-right me-2"></i> مواصلة الشراء
+            </a>
+            <a href="{% url 'checkout' %}" class="btn btn-pay w-50 text-center">
+                <i class="bi bi-credit-card me-2"></i> الدفع
+            </a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

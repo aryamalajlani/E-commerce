@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block title %}الفاتورة{% endblock %}
+
+{% block content %}
+<style>
+    .invoice-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 60px 0;
+        border-radius: 0 0 50px 50px;
+        margin-bottom: 50px;
+    }
+
+    .invoice-card {
+        border: none;
+        border-radius: 20px;
+        background: #ffffff;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        padding: 40px;
+    }
+
+    .info-box {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 20px 25px;
+        margin-bottom: 30px;
+    }
+
+    .info-box p {
+        margin: 0;
+        font-size: 1rem;
+        color: #444;
+    }
+
+    .table thead {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+    }
+
+    .table thead th {
+        border: none;
+        padding: 14px;
+    }
+
+    .table tbody tr {
+        transition: background 0.2s;
+    }
+
+    .table tbody tr:hover {
+        background: #f0f0ff;
+    }
+
+    .totals-box {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 20px 25px;
+        margin-top: 20px;
+    }
+
+    .totals-box h4, .totals-box h5 {
+        margin: 6px 0;
+    }
+
+    .qr-box {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 20px;
+        display: inline-block;
+    }
+</style>
+
+<div class="invoice-header text-center">
+    <h1 class="display-4 fw-bold">فاتورة</h1>
+    <p class="lead opacity-75">شكراً لتسوقك معنا</p>
+</div>
+
+<div class="container">
+    <div class="invoice-card">
+
+        <div class="info-box">
+            <p><strong>اسم الشركة:</strong> {{ company }}</p>
+            <p class="mt-2"><strong>اسم الزبون:</strong> {{ customer }}</p>
+        </div>
+
+        <table class="table mt-4">
+            <thead>
+                <tr>
+                    <th>اسم المنتج</th>
+                    <th>السعر</th>
+                    <th>الكمية</th>
+                    <th>الإجمالي</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, item in cart.items %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.price }} ر.س</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.price|floatformat:2 }} ر.س</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="totals-box text-end">
+            <h5>المجموع: {{ total }} ر.س</h5>
+            <h5>الضريبة (15%): {{ tax }} ر.س</h5>
+            <h4 class="fw-bold" style="color:#667eea">الإجمالي مع الضريبة: {{ total_with_tax }} ر.س</h4>
+        </div>
+
+        {% if qr_code %}
+        <div class="text-center mt-4">
+            <div class="qr-box">
+                <p class="fw-bold mb-2">رمز QR للفاتورة</p>
+                <img src="data:image/png;base64,{{ qr_code }}" width="150">
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}
